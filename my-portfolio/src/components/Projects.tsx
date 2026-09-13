@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 
 interface Project {
@@ -13,54 +14,7 @@ interface Project {
   link?: string;
 }
 
-const defaultProjects: Project[] = [
-  {
-    _id: "1",
-    title: "RentHub Marketplace",
-    description: "A marketplace for cars, houses, and rentals featuring an AI assistant that helps users create listings and chat within the platform.",
-    technologies: ["React", "Vite", "Node.js", "MongoDB", "AI"],
-    images: [
-      "https://picsum.photos/seed/renthub1/400/250",
-      "https://picsum.photos/seed/renthub2/400/250",
-      "https://picsum.photos/seed/renthub3/400/250",
-      "https://picsum.photos/seed/renthub4/400/250",
-    ],
-  },
-  {
-    _id: "2",
-    title: "ProConnect Platform",
-    description: "A platform connecting professionals with contractors, enabling job posting and vacancy management tailored to related fields.",
-    technologies: ["React", "Vite", "Supabase"],
-    images: [
-      "https://picsum.photos/seed/procon1/400/250",
-      "https://picsum.photos/seed/procon2/400/250",
-      "https://picsum.photos/seed/procon3/400/250",
-    ],
-  },
-  {
-    _id: "3",
-    title: "ERP Management System",
-    description: "A comprehensive ERP solution with booking, ordering, order tracking, inventory management, and automated report generation.",
-    technologies: ["React", "Node.js", "Database"],
-    images: [
-      "https://picsum.photos/seed/erp1/400/250",
-      "https://picsum.photos/seed/erp2/400/250",
-      "https://picsum.photos/seed/erp3/400/250",
-      "https://picsum.photos/seed/erp4/400/250",
-    ],
-  },
-  {
-    _id: "4",
-    title: "Contractor Portal",
-    description: "A web application for contractors to post vacancies and manage tenders efficiently.",
-    technologies: ["React", "Vite", "Supabase"],
-    images: [
-      "https://picsum.photos/seed/contract1/400/250",
-      "https://picsum.photos/seed/contract2/400/250",
-      "https://picsum.photos/seed/contract3/400/250",
-    ],
-  },
-];
+
 
 function ImageCarousel({ images, title }: { images: string[]; title: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -116,7 +70,7 @@ function ImageCarousel({ images, title }: { images: string[]; title: string }) {
 }
 
 export default function Projects() {
-  const [projects, setProjects] = useState<Project[]>(defaultProjects);
+  const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
     fetch("/api/projects")
@@ -153,6 +107,8 @@ export default function Projects() {
               ? [project.imageUrl]
               : [];
 
+              console.log("Rendering project:" );
+              console.log("Rendering project:", project.link, project.title );
           return (
             <motion.div
               key={project._id}
@@ -188,8 +144,8 @@ export default function Projects() {
                   ))}
                 </div>
                 {project.link && (
-                  <a
-                    href={project.link}
+                  <Link
+                    href={`https://${project.link}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-sm text-accent hover:text-accent-light transition-colors"
@@ -198,7 +154,7 @@ export default function Projects() {
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
-                  </a>
+                  </Link>
                 )}
               </div>
             </motion.div>
